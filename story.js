@@ -453,6 +453,7 @@ async function runGame(){
 }
 
 async function startGame(){
+  loadPortraits();
   if(_gameStarted) return;
   _gameStarted = true;
   AC = new (window.AudioContext || window.webkitAudioContext)();
