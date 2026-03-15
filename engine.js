@@ -1,13 +1,13 @@
+});
 const PORTRAITS = {};
-window.addEventListener('load', ()=>{
+function loadPortraits(){
   const store = document.getElementById('portrait-store');
   if(!store) return;
   store.querySelectorAll('img').forEach(img => {
     const key = img.id.replace('p_', '');
     PORTRAITS[key] = img.src;
   });
-});
-
+}
 const bgCanvas = document.getElementById('bg-canvas');
 const bgCtx = bgCanvas.getContext('2d');
 let bgW, bgH, bgT = 0;
