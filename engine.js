@@ -1,10 +1,10 @@
 const PORTRAITS = {};
-document.addEventListener('DOMContentLoaded', ()=>{
+window.addEventListener('load', ()=>{
   const store = document.getElementById('portrait-store');
   if(!store) return;
   store.querySelectorAll('img').forEach(img => {
     const key = img.id.replace('p_', '');
-    PORTRAITS[key] = '<img src="' + img.src + '" style="height:100%;width:auto;max-width:100%;object-fit:contain;">';
+    PORTRAITS[key] = img.src;
   });
 });
 
@@ -236,7 +236,15 @@ async function showActTitle(num){ await fadeOut(500); const ov=document.getEleme
 async function showLocation(place,time){ const banner=document.getElementById('location-banner'); document.getElementById('location-place').textContent=place; document.getElementById('location-time').textContent=time; banner.className='center'; await sleep(2200); banner.className='top'; await sleep(800); }
 function hideLocation(){ document.getElementById('location-banner').className=''; }
 const stageState={left:null,right:null,center:null};
-function stageShow(slot,characterKey){ const el=document.getElementById('slot-'+slot); if(!el) return; const portrait=PORTRAITS[characterKey]; if(!portrait){ el.classList.add('hidden'); return; } el.innerHTML=portrait; const img=el.querySelector('img'); if(img) img.style.cssText='height:100%;width:auto;max-width:100%;object-fit:contain;'; el.classList.remove('hidden','dimmed'); stageState[slot]=characterKey; }
+function stageShow(slot,characterKey){
+  const el=document.getElementById('slot-'+slot);
+  if(!el) return;
+  const src=PORTRAITS[characterKey];
+  if(!src){ el.classList.add('hidden'); return; }
+  el.innerHTML='<img src="'+src+'" style="height:100%;width:auto;max-width:100%;object-fit:contain;">';
+  el.classList.remove('hidden','dimmed');
+  stageState[slot]=characterKey;
+}
 function stageHide(slot){ const el=document.getElementById('slot-'+slot); if(el){ el.classList.add('hidden'); el.innerHTML=''; } stageState[slot]=null; }
 function stageHideAll(){ ['left','right','center'].forEach(stageHide); }
 function stageActivate(activeSlot){ ['left','right','center'].forEach(slot=>{ const el=document.getElementById('slot-'+slot); if(!el||el.classList.contains('hidden')) return; slot===activeSlot ? el.classList.remove('dimmed') : el.classList.add('dimmed'); }); }
