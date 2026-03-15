@@ -17,6 +17,7 @@ async function showAct(n){
 }
 
 async function runGame(){
+  setTimeout(()=>{ alert(JSON.stringify(Object.keys(PORTRAITS))); }, 2000);
   sceneEl.classList.remove('visible');
   stageHideAll();
 
