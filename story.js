@@ -456,6 +456,7 @@ async function startGame(){
   loadPortraits();
   if(_gameStarted) return;
   _gameStarted = true;
+  alert('startGame OK');
   AC = new (window.AudioContext || window.webkitAudioContext)();
   window._actx = AC;
   const splash = document.getElementById('splash-screen');
