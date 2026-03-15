@@ -1,4 +1,3 @@
-});
 const PORTRAITS = {};
 function loadPortraits(){
   const store = document.getElementById('portrait-store');
@@ -8,6 +7,7 @@ function loadPortraits(){
     PORTRAITS[key] = img.src;
   });
 }
+
 const bgCanvas = document.getElementById('bg-canvas');
 const bgCtx = bgCanvas.getContext('2d');
 let bgW, bgH, bgT = 0;
