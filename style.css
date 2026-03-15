@@ -26,20 +26,64 @@ html,body{ width:100%;height:100%;background:#060608;overflow:hidden;font-family
 #location-place{ font-size:clamp(13px,2.2vw,17px);color:#8a9098;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px; }
 #location-time{ font-size:clamp(20px,4vw,32px);color:#4a5868;letter-spacing:.12em;font-style:italic; }
 
+/* ── SCENE ── */
 #scene{ position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;transition:opacity 0.5s ease; }
 #scene.visible{ opacity:1; }
 
-#stage{ position:relative;width:100%;height:clamp(240px,42vh,400px);display:flex;align-items:flex-end;justify-content:center;margin-bottom:-52px;pointer-events:none; }
-.char-slot{ position:absolute;bottom:0;height:100%;display:flex;align-items:flex-end;justify-content:center;transition:opacity 0.4s ease,filter 0.4s ease; }
-.char-slot.left{ left:4%; }
-.char-slot.right{ right:4%; }
-.char-slot.center{ left:50%;transform:translateX(-50%); }
-.char-slot.hidden{ opacity:0; }
-.char-slot img{ height:100%;width:auto;max-width:clamp(140px,28vw,280px);object-fit:contain;filter:drop-shadow(0 0 1.5px #000) drop-shadow(0 0 1.5px #000) drop-shadow(0 12px 32px rgba(0,0,0,0.9)); }
+/* ── STAGE — hauteur fixe, sprites alignés par le bas ── */
+#stage{
+  position:relative;
+  width:100%;
+  height:260px;
+  flex-shrink:0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  pointer-events:none;
+  /* Le bas du stage coïncide avec le haut de la boite de dialogue */
+  margin-bottom:0;
+}
+
+.char-slot{
+  position:absolute;
+  bottom:0;
+  height:100%;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  transition:opacity 0.4s ease, filter 0.4s ease;
+}
+.char-slot.left  { left:4%; }
+.char-slot.right { right:4%; }
+.char-slot.center{ left:50%; transform:translateX(-50%); }
+.char-slot.hidden{ opacity:0;pointer-events:none; }
+.char-slot img{
+  height:100%;
+  width:auto;
+  max-width:clamp(140px,28vw,260px);
+  object-fit:contain;
+  object-position:bottom;
+  filter:drop-shadow(0 0 1.5px #000) drop-shadow(0 0 1.5px #000) drop-shadow(0 12px 32px rgba(0,0,0,0.9));
+}
 .char-slot.dimmed img{ filter:drop-shadow(0 0 1px #000) brightness(0.35) saturate(0.4); }
 .char-slot.dimmed{ opacity:0.7; }
 
-#dialogue-box{ margin:0 16px 40px;background:rgba(4,5,8,0.96);border:0.5px solid rgba(255,255,255,0.07);border-radius:3px;padding:16px 20px 36px;max-width:720px;width:calc(100% - 32px);align-self:center;position:relative;z-index:15; }
+/* ── DIALOGUE — taille fixe ── */
+#dialogue-box{
+  flex-shrink:0;
+  height:160px;
+  margin:0 16px 40px;
+  background:rgba(4,5,8,0.96);
+  border:0.5px solid rgba(255,255,255,0.07);
+  border-radius:3px;
+  padding:16px 20px 36px;
+  max-width:720px;
+  width:calc(100% - 32px);
+  align-self:center;
+  position:relative;
+  z-index:15;
+  overflow:hidden;
+}
 #speaker-name{ font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5a5e68;margin-bottom:8px;display:none; }
 #dialogue-text{ font-size:16px;line-height:1.9;color:#e8e6e0; }
 #dialogue-text.thought{ color:#b8b4a8;font-style:italic; }
