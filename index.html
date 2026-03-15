@@ -16,7 +16,6 @@
 <canvas id="bg-canvas"></canvas>
 <div id="progress-bar"></div>
 
-<!-- SPLASH -->
 <div id="splash-screen">
   <div id="splash-inner">
     <div id="splash-title">
@@ -27,13 +26,9 @@
   </div>
 </div>
 
-<!-- ACT OVERLAY -->
 <div id="act-overlay"><div id="act-title-text"></div></div>
-
-<!-- FADE -->
 <div id="fade-overlay"></div>
 
-<!-- LOCATION BANNER -->
 <div id="location-banner">
   <div id="location-banner-inner">
     <div id="location-place"></div>
@@ -41,11 +36,10 @@
   </div>
 </div>
 
-<!-- SCENE -->
 <div id="scene">
   <div id="stage">
-    <div class="char-slot left hidden"   id="slot-left"></div>
-    <div class="char-slot right hidden"  id="slot-right"></div>
+    <div class="char-slot left hidden"  id="slot-left"></div>
+    <div class="char-slot right hidden" id="slot-right"></div>
     <div class="char-slot center hidden" id="slot-center"></div>
   </div>
   <div id="dialogue-box">
@@ -55,7 +49,6 @@
   </div>
 </div>
 
-<!-- MINIGAME -->
 <div id="mg-banner">
   <div id="mg-banner-inner">
     <div id="mg-banner-title"></div>
@@ -72,7 +65,6 @@
   <canvas id="minigame-canvas"></canvas>
 </div>
 
-<!-- CHOICE -->
 <div id="choice-screen">
   <div class="choice-half" id="choice-left" onclick="makeChoice('left')">
     <div class="pulse-dot" id="pulse-left"></div>
@@ -87,7 +79,6 @@
   <div id="choice-timer">10</div>
 </div>
 
-<!-- END SCREEN -->
 <div id="end-screen">
   <div id="end-content"></div>
   <div id="end-title-display"><span class="big">T</span>raitement&nbsp;<span class="big">M</span>oral</div>
@@ -97,7 +88,6 @@
   </div>
 </div>
 
-<!-- CREDITS -->
 <div id="credits-screen">
   <h2><span style="font-size:1.18em;color:#5a6878">T</span>raitement&nbsp;<span style="font-size:1.18em;color:#5a6878">M</span>oral</h2>
   <p style="color:#5a6070;font-style:italic;margin-bottom:24px">Un jeu narratif sur l'éthique médicale</p>
@@ -108,35 +98,32 @@
   <button id="credits-back" onclick="hideCredits()">retour</button>
 </div>
 
-<!-- GAME TITLE -->
 <div id="game-title">
   <span style="color:#1e2840;font-size:1.15em">T</span>raitement
   <span style="color:#1e2840;font-size:1.15em">M</span>oral
 </div>
 
-<!-- PORTRAITS -->
 <div id="portrait-store" style="display:none">
-  <img id="p_claude_neutre"     src="images/claude_neutre.png">
-  <img id="p_claude_pensif"     src="images/claude_pensif.png">
-  <img id="p_claude_inquiet"    src="images/claude_inquiet.png">
-  <img id="p_claude_souriant"   src="images/claude_souriant.png">
-  <img id="p_claude_serieux"    src="images/claude_serieux.png">
-  <img id="p_claude_masque"     src="images/claude_masque.png">
-  <img id="p_claude_masque2"    src="images/claude_masque2.png">
-  <img id="p_gerard_calme"      src="images/gerard_calme.png">
-  <img id="p_gerard_souriant"   src="images/gerard_souriant.png">
-  <img id="p_antoine_neutre"    src="images/antoine_neutre.png">
-  <img id="p_antoine_nerveux"   src="images/antoine_nerveux.png">
-  <img id="p_antoine_masque"    src="images/antoine_masque.png">
-  <img id="p_lucas_inquiet"     src="images/lucas_inquiet.png">
-  <img id="p_lucas_triste"      src="images/lucas_triste.png">
-  <img id="p_lucas_admiratif"   src="images/lucas_admiratif.png">
-  <img id="p_lucas_content"     src="images/lucas_content.png">
-  <img id="p_lucas_soucieux"    src="images/lucas_soucieux.png">
+  <img id="p_claude_neutre"    src="images/claude_neutre.png">
+  <img id="p_claude_pensif"    src="images/claude_pensif.png">
+  <img id="p_claude_inquiet"   src="images/claude_inquiet.png">
+  <img id="p_claude_souriant"  src="images/claude_souriant.png">
+  <img id="p_claude_serieux"   src="images/claude_serieux.png">
+  <img id="p_claude_masque"    src="images/claude_masque.png">
+  <img id="p_claude_masque2"   src="images/claude_masque2.png">
+  <img id="p_gerard_calme"     src="images/gerard_calme.png">
+  <img id="p_gerard_souriant"  src="images/gerard_souriant.png">
+  <img id="p_antoine_neutre"   src="images/antoine_neutre.png">
+  <img id="p_antoine_nerveux"  src="images/antoine_nerveux.png">
+  <img id="p_antoine_masque"   src="images/antoine_masque.png">
+  <img id="p_lucas_inquiet"    src="images/lucas_inquiet.png">
+  <img id="p_lucas_triste"     src="images/lucas_triste.png">
+  <img id="p_lucas_admiratif"  src="images/lucas_admiratif.png">
+  <img id="p_lucas_content"    src="images/lucas_content.png">
+  <img id="p_lucas_soucieux"   src="images/lucas_soucieux.png">
   <img id="p_infirmiere_neutre" src="images/infirmiere_neutre.png">
 </div>
 
-<!-- SCRIPTS -->
 <script src="engine.js"></script>
 <script src="story.js"></script>
 
