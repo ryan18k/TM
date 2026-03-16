@@ -101,6 +101,18 @@ document.addEventListener('visibilitychange',()=>{
   }
 });
 
+// roundRect polyfill pour Safari iOS
+function rRect(ctx,x,y,w,h,r){
+  r=Math.min(r,w/2,h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
+  ctx.closePath();
+}
+
 // Sons mini-jeux
 function playTick(freq,vol){
   if(!AC) return;
@@ -139,17 +151,31 @@ function setProgress(p){ progressBar.style.width=p+'%'; }
 async function fadeOut(ms=600){ const fo=document.getElementById('fade-overlay'); fo.style.transition=`opacity ${ms/1000}s ease`; fo.style.opacity='1'; await sleep(ms); }
 async function fadeIn(ms=600){  const fo=document.getElementById('fade-overlay'); fo.style.transition=`opacity ${ms/1000}s ease`; fo.style.opacity='0'; await sleep(ms); }
 
-async function showActTitle(num){
+async function showActTitle(num, bgScene){
+  // 1. Fondu vers le noir
   await fadeOut(500);
+  // 2. Pendant que c'est noir : charger le nouveau fond si fourni
+  if(bgScene){
+    const map={hospital:'images/bg_hospital.jpg',apartment:'images/bg_apartment.jpg',or:'images/bg_corridor.jpg'};
+    const layer=document.getElementById('bg-layer');
+    layer.style.backgroundImage=map[bgScene]?`url('${map[bgScene]}')`:'none';
+    _currentBg=map[bgScene]||'';
+  }
+  // 3. Afficher le titre de l'acte (fond-overlay noir masque le bg)
   const ov=document.getElementById('act-overlay'),tx=document.getElementById('act-title-text');
   tx.textContent='Acte '+['I','II','III','IV'][num-1];
   ov.style.opacity='1'; ov.classList.add('active');
+  // 4. Retirer le fade-overlay noir (l'act-overlay prend le relais)
+  const fo=document.getElementById('fade-overlay');
+  fo.style.opacity='0';
   await sleep(1800);
   ov.style.opacity='0'; ov.classList.remove('active');
   await sleep(600);
+  // 5. fadeIn depuis le noir de l'act-overlay → le fond apparaît proprement
+  await fadeIn(500);
 }
-// Alias utilisé dans story.js
-async function showAct(n){ await showActTitle(n); }
+// Alias utilisé dans story.js — accepte bgScene en 2e paramètre
+async function showAct(n, bgScene){ await showActTitle(n, bgScene); }
 
 async function showLocation(place,time){
   const b=document.getElementById('location-banner');
@@ -648,17 +674,17 @@ function runMG_dosage(opts){
 
       // Barre de fond
       ctx.fillStyle='rgba(20,25,35,0.85)';
-      ctx.beginPath();ctx.roundRect(barX,barY-barH/2,barW,barH,barH/2);ctx.fill();
+      ctx.beginPath();rRect(ctx,barX,barY-barH/2,barW,barH,barH/2);ctx.fill();
 
       // Barre progression
       ctx.fillStyle=`rgba(40,130,80,${0.5+flashGreen*0.4})`;
-      ctx.beginPath();ctx.roundRect(barX,barY-barH/2,barW*progress,barH,barH/2);ctx.fill();
+      ctx.beginPath();rRect(ctx,barX,barY-barH/2,barW*progress,barH,barH/2);ctx.fill();
 
       // Zone verte
       ctx.fillStyle=`rgba(50,200,100,${0.22+flashGreen*0.12})`;
-      ctx.beginPath();ctx.roundRect(zoneX-zoneW/2,barY-barH/2,zoneW,barH,6);ctx.fill();
+      ctx.beginPath();rRect(ctx,zoneX-zoneW/2,barY-barH/2,zoneW,barH,6);ctx.fill();
       ctx.strokeStyle=`rgba(60,210,110,${0.55+flashGreen*0.3})`;ctx.lineWidth=2;
-      ctx.beginPath();ctx.roundRect(zoneX-zoneW/2,barY-barH/2,zoneW,barH,6);ctx.stroke();
+      ctx.beginPath();rRect(ctx,zoneX-zoneW/2,barY-barH/2,zoneW,barH,6);ctx.stroke();
 
       // Curseur
       const cCol=inZone?`rgba(60,220,110,0.95)`:`rgba(220,80,60,${0.7+flashRed*0.3})`;
@@ -673,7 +699,8 @@ function runMG_dosage(opts){
       }
 
       // Texte instruction
-      ctx.fillStyle='rgba(160,170,180,0.7)';ctx.font=`${clamp(12,1.8,16)}px Georgia`;ctx.textAlign='center';
+// Sons mini-jeux
+function playTick(freq,vol){
       ctx.fillText(pressing?'Maintenez dans la zone verte':'Appuyez et guidez le curseur',W/2,barY-barH/2-20);
 
       // Timer
