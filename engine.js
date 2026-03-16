@@ -302,7 +302,7 @@ function runMG_dosage(opts){
     let cursorX=W/2,flashGreen=0,flashRed=0,lastTs=null;
 
     // Zone verte — mouvement aléatoire avec changements de direction
-    let zoneX=W*0.5,zoneW=W*0.12,zoneVX=2.5,zoneDrift=0;
+    let zoneX=W*0.5,zoneW=W*0.08,zoneVX=3.5,zoneDrift=0;
     let nextDirChange=2000, dirTimer=0;
 
     // Barres
@@ -325,7 +325,7 @@ function runMG_dosage(opts){
       if(dirTimer>nextDirChange){
         dirTimer=0;nextDirChange=800+Math.random()*2000;
         const angle=(Math.random()-.5)*Math.PI*0.8;
-        const speed=2+Math.random()*3*(1+progress);
+        const speed=3+Math.random()*4*(1+progress*1.5);
         zoneVX=Math.cos(angle)*speed*(Math.random()<0.5?1:-1);
       }
       zoneDrift+=(Math.random()-.5)*0.3;zoneDrift=Math.max(-1.5,Math.min(1.5,zoneDrift));
@@ -400,6 +400,7 @@ function runMG_dosage(opts){
       document.getElementById('mg-score-val').textContent=Math.round(progress*100)+'%';
 
       if(progress>=1){endMG(true);return;}
+      if(progress<=0&&!pressing){endMG(false);return;}
       animId=requestAnimationFrame(draw);
     }
 
