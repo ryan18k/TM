@@ -19,10 +19,10 @@ async function showAct(n){
 async function runGame(){
   sceneEl.classList.remove('visible');
   stageHideAll();
+  startMusic();
 
   // ══════════════════════════════════════════
   // ACTE I — Chambre de Gérard
-  // Claude : scrubs uniquement (neutre, pensif)
   // ══════════════════════════════════════════
   await showAct(1);
   setProgress(5);
@@ -80,8 +80,6 @@ async function runGame(){
 
   // ══════════════════════════════════════════
   // ACTE II — Appartement de Claude
-  // Claude : veste civile uniquement
-  // Lucas : pyjama rayé uniquement
   // ══════════════════════════════════════════
   await fadeOut(800); stageHideAll(); await sleep(200);
   await showAct(2);
@@ -163,12 +161,11 @@ async function runGame(){
 
   // ══════════════════════════════════════════
   // ACTE III — Bloc opératoire
-  // Claude + Antoine : masques uniquement
   // ══════════════════════════════════════════
   await fadeOut(800); stageHideAll(); await sleep(200);
   await showAct(3);
   setProgress(45);
-  setBgScene('or');
+  setBgScene('corridor');
   setAmbience('or', 1200);
   await fadeIn(600);
   await showLocation('CHUV — Bloc opératoire n°2', '15 : 37');
@@ -324,12 +321,11 @@ async function runGame(){
 
   // ══════════════════════════════════════════
   // ACTE IV — Couloir
-  // Claude : scrubs (retour hôpital sans masque)
   // ══════════════════════════════════════════
   await fadeOut(800); stageHideAll(); await sleep(200);
   await showAct(4);
   setProgress(88);
-  setBgScene('hospital');
+  setBgScene('corridor');
   setAmbience('hospital', 1200);
   await fadeIn(600);
   await showLocation('CHUV — Couloir', '03 : 14');
@@ -346,6 +342,7 @@ async function runGame(){
 
   await say('Claude', 'Gérard.');
 
+  switchToTension();
   setAmbience('choice', 800);
   sceneEl.classList.remove('visible');
   await sleep(400);
@@ -358,14 +355,15 @@ async function runGame(){
     right: { label: 'Rentrer chez Lucas', sub: 'tenir sa promesse de père' },
   });
 
+  switchToAmbiance();
   setAmbience('ending', 1500);
   await fadeIn(400);
   sceneEl.classList.add('visible');
 
   if(choix === 'left'){
     SCENE_CAST = {
-      'Claude': { slot:'left',  key:'claude_neutre'    },
-      'Gérard': { slot:'right', key:'gerard_calme'     },
+      'Claude': { slot:'left',  key:'claude_neutre' },
+      'Gérard': { slot:'right', key:'gerard_calme'  },
     };
     stageShow('left',  'claude_neutre');
     stageShow('right', 'gerard_calme');
@@ -386,8 +384,8 @@ async function runGame(){
 
   } else if(choix === 'right'){
     SCENE_CAST = {
-      'Claude': { slot:'left',  key:'claude_neutre'   },
-      'Lucas':  { slot:'right', key:'lucas_soucieux'  },
+      'Claude': { slot:'left',  key:'claude_neutre'  },
+      'Lucas':  { slot:'right', key:'lucas_soucieux' },
     };
     stageShow('left',  'claude_neutre');
     stageShow('right', 'lucas_soucieux');
@@ -453,6 +451,8 @@ async function startGame(){
   _gameStarted = true;
   AC = new (window.AudioContext || window.webkitAudioContext)();
   window._actx = AC;
+  loadMusic();
+  musicReady = true;
   const splash = document.getElementById('splash-screen');
   splash.classList.add('hiding');
   await sleep(900);
@@ -462,6 +462,7 @@ async function startGame(){
 
 function restartGame(){
   _gameStarted = false;
+  stopAllMusic(500);
   document.getElementById('end-screen').classList.remove('active');
   document.getElementById('credits-screen').classList.remove('active');
   disposeAmbience();
