@@ -12,10 +12,8 @@ async function runGame(){
   stageHideAll();
 
   // ── ACTE I ──────────────────────────────────────────────────────
-  await showAct(1);
+  await showAct(1,'hospital');
   setProgress(5);
-  // Fond apparaît APRÈS l'écran d'acte
-  await setBgScene('hospital');
   playMusicAmbiance();
   await showLocation('CHUV — Chambre 214', '18 : 09');
 
@@ -47,10 +45,8 @@ async function runGame(){
   await fadeOut(800);
   stageHideAll();
   await sleep(200);
-  await showAct(2);
+  await showAct(2,'apartment');
   setProgress(28);
-  await setBgScene('apartment');
-  await fadeIn(600);
   await showLocation('Appartement de Claude', '00 : 23');
 
   SCENE_CAST = {
@@ -88,11 +84,9 @@ async function runGame(){
   await fadeOut(800);
   stageHideAll();
   await sleep(200);
-  await showAct(3);
+  await showAct(3,'or');
   setProgress(45);
-  await setBgScene('or');
   playMusicTension();
-  await fadeIn(600);
   await showLocation('CHUV — Bloc opératoire n°2', '15 : 37');
 
   SCENE_CAST = {
@@ -191,11 +185,9 @@ async function runGame(){
   await fadeOut(800);
   stageHideAll();
   await sleep(200);
-  await showAct(4);
+  await showAct(4,'hospital');
   setProgress(88);
-  await setBgScene('hospital');
   playMusicAmbiance();
-  await fadeIn(600);
   await showLocation('CHUV — Couloir', '03 : 14');
 
   SCENE_CAST = { 'Claude': { key:'claude' } };
