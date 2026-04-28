@@ -29,7 +29,7 @@ html,body{width:100%;height:100%;background:#060608;overflow:hidden;font-family:
 /* ACT OVERLAY */
 #act-overlay{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity 0.6s ease;}
 #act-overlay.active{pointer-events:all;}
-#act-title-text{font-size:clamp(13px,2.5vw,20px);color:#3a4050;letter-spacing:.3em;text-align:center;text-transform:uppercase;}
+#act-title-text{font-size:clamp(18px,3.5vw,28px);color:#8a9ab0;letter-spacing:.4em;text-align:center;text-transform:uppercase;}
 
 /* FADE */
 #fade-overlay{position:fixed;inset:0;background:#000;z-index:150;opacity:0;pointer-events:none;transition:opacity 0.6s ease;}
@@ -59,68 +59,61 @@ html,body{width:100%;height:100%;background:#060608;overflow:hidden;font-family:
 }
 #dialogue-box::before{content:'';position:absolute;top:-1px;left:4%;right:4%;height:1px;background:linear-gradient(90deg,transparent,rgba(160,200,230,0.18) 35%,rgba(160,200,230,0.28) 50%,rgba(160,200,230,0.18) 65%,transparent);}
 
-/* ── STAGE — sprite 2× plus grand, collé juste au-dessus du nom ── */
-/*
-  Le sprite est positionné de sorte que son bas visible (la ligne de découpe)
-  soit exactement au niveau du haut de la boîte de dialogue.
-  2× plus grand = on double la hauteur du conteneur.
-*/
+/* ── STAGE — portrait à mi-chemin entre gauche et centre, grand ── */
 #stage{
   position:fixed;
   bottom:clamp(170px,24vh,210px);
-  /* Centré au-dessus du nom du speaker (à gauche de la boîte) */
-  left:16px;
-  width:clamp(160px,24vw,260px);
-  height:clamp(300px,48vh,480px);
+  left:clamp(16px,18vw,200px);
+  width:clamp(180px,26vw,300px);
+  height:clamp(380px,58vh,600px);
   pointer-events:none;
   z-index:21;
   overflow:hidden;
 }
 #slot-main{
   position:absolute;inset:0;
-  display:flex;align-items:flex-end;justify-content:flex-start;
+  display:flex;align-items:flex-end;justify-content:center;
   transition:opacity 0.25s ease,filter 0.25s ease;
 }
 #slot-main.hidden{opacity:0;}
 #slot-main img{
   width:100%;height:auto;
-  object-fit:contain;object-position:bottom left;
+  object-fit:contain;object-position:bottom center;
   display:block;
   filter:drop-shadow(0 0 4px rgba(0,0,0,1)) drop-shadow(0 8px 24px rgba(0,0,0,0.95));
 }
 #slot-main.dimmed img{filter:brightness(0.22) saturate(0.1) grayscale(0.8) drop-shadow(0 0 2px #000);}
 
-/* Nom du speaker — à droite du sprite, en haut de la boîte */
+/* Nom du speaker — aligné sous le portrait, même largeur */
 #speaker-name{
-  position:absolute;top:11px;
-  left:clamp(184px,26vw,284px); /* = largeur stage + gap */
-  right:16px;
-  font-size:clamp(13px,2vw,15px);font-family:Georgia,serif;
+  position:absolute;top:10px;
+  left:clamp(16px,18vw,200px);
+  width:clamp(180px,26vw,300px);
+  text-align:center;
+  font-size:clamp(11px,1.5vw,13px);font-family:Georgia,serif;
   letter-spacing:.22em;text-transform:uppercase;color:#b8c8d4;
-  border-left:2px solid rgba(90,140,180,0.5);padding-left:9px;line-height:1;
+  line-height:1;
   display:none;
 }
 
-/* Texte dialogue */
+/* Texte dialogue — pleine largeur de la boîte, centré indépendamment */
 #dialogue-text{
-  position:absolute;top:35px;bottom:32px;
-  left:clamp(184px,26vw,284px);right:24px;
-  font-size:clamp(16px,2.4vw,19px);
+  position:absolute;top:0;bottom:32px;
+  left:16px;right:16px;
+  font-size:clamp(15px,2.2vw,18px);
   line-height:1.88;color:#dedad4;overflow:hidden;
-}
-
-/* Indications scéniques : centrées, italique, guillemets */
-#dialogue-text.thought{
-  color:#848280;font-style:italic;
-  left:24px;right:24px;
   text-align:center;
   display:flex;align-items:center;justify-content:center;
+}
+
+/* Indications scéniques */
+#dialogue-text.thought{
+  color:#848280;font-style:italic;
   font-size:clamp(14px,2.1vw,17px);
 }
 
 /* Mode narration */
 #dialogue-box.narration #speaker-name{display:none!important;}
-#dialogue-box.narration #dialogue-text{left:24px;right:24px;}
 
 /* Bouton continuer */
 #continue-btn{position:absolute;bottom:9px;right:15px;background:none;border:none;color:#2e3848;font-size:10px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;font-family:Georgia,serif;opacity:0;pointer-events:none;transition:color .3s,opacity .35s;}
@@ -161,30 +154,31 @@ html,body{width:100%;height:100%;background:#060608;overflow:hidden;font-family:
 #mg-retry-btn:hover,#mg-retry-btn:active{border-color:#6a7080;color:#9aa0a8;}
 
 /* CHOICE */
-#choice-screen{position:fixed;inset:0;z-index:30;display:flex;opacity:0;pointer-events:none;transition:opacity 0.5s ease;}
-#choice-screen.active{opacity:1;pointer-events:all;}
-.choice-half{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;padding:24px;transition:background .3s;}
-.choice-half:first-child{border-right:.5px solid rgba(255,255,255,0.04);}
-.choice-half:hover,.choice-half:active{background:rgba(255,255,255,0.022);}
-.choice-label{font-size:clamp(12px,2.2vw,15px);line-height:1.8;color:#7a7870;text-align:center;max-width:220px;font-style:italic;}
-.choice-sublabel{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#2e3440;margin-top:10px;}
-#choice-timer{position:absolute;bottom:56px;left:0;right:0;text-align:center;font-size:28px;color:#2e3440;transition:color .3s;}
-#choice-timer.urgent{color:#8a2020;}
-.pulse-dot{width:7px;height:7px;border-radius:50%;background:#2a4050;animation:pdot 1.2s ease-in-out infinite;margin-bottom:18px;}
-@keyframes pdot{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
-.pulse-dot.fast{animation-duration:.5s;}
+#choice-screen{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:48px;opacity:0;pointer-events:none;transition:opacity 0.5s ease;background:#000;}
+#choice-screen.active{opacity:1;pointer-events:all;animation:redFlash 1.4s ease-in-out infinite;}
+@keyframes redFlash{0%,100%{background:#000;}50%{background:#0f0000;}}
+#choice-timer{font-size:clamp(80px,15vw,130px);color:#cc2020;font-family:Georgia,serif;letter-spacing:.05em;animation:timerPulse 0.7s ease-in-out infinite;line-height:1;text-align:center;}
+@keyframes timerPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.12);opacity:0.7;}}
+#choice-options{display:flex;width:100%;max-width:1000px;gap:0;}
+.choice-half{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;padding:32px 40px;transition:background .2s;border:1px solid rgba(255,255,255,0.08);border-radius:4px;margin:0 16px;}
+.choice-half:hover,.choice-half:active{background:rgba(200,30,30,0.08);border-color:rgba(200,30,30,0.3);}
+.choice-label{font-size:clamp(18px,2.8vw,28px);line-height:1.6;color:#e8e4d8;text-align:center;font-style:italic;}
+.choice-sublabel{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#8a7060;margin-top:14px;}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:#cc2020;animation:pdot 0.9s ease-in-out infinite;margin-bottom:16px;}
+@keyframes pdot{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.5)}}
+.pulse-dot.fast{animation-duration:.45s;}
 
 /* END */
 #end-screen{position:fixed;inset:0;background:#000;z-index:180;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;opacity:0;pointer-events:none;transition:opacity 1s ease;}
 #end-screen.active{opacity:1;pointer-events:all;}
-#end-content{max-width:580px;text-align:left;}
+#end-content{max-width:580px;text-align:center;}
 .end-line{font-size:15px;line-height:2.1;color:#b8b4a8;font-style:italic;opacity:0;transition:opacity 1.2s ease;display:block;}
 .end-line.shown{opacity:1;}
-#end-title-display{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:#1e2530;margin-top:44px;text-align:center;opacity:0;transition:opacity 1s ease;}
+#end-title-display{font-size:clamp(22px,4vw,34px);letter-spacing:.25em;text-transform:uppercase;color:#8a9aaa;margin-top:48px;text-align:center;opacity:0;transition:opacity 1s ease;}#end-version{font-size:11px;letter-spacing:.3em;color:#4a5468;text-transform:uppercase;margin-top:10px;}
 #end-buttons{display:flex;gap:24px;margin-top:28px;justify-content:center;}
-#restart-btn,#credits-btn{background:none;border:none;color:#2e3440;font-size:10px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;font-family:Georgia,serif;opacity:0;transition:opacity 1s ease,color .3s;}
-#restart-btn.shown,#credits-btn.shown{opacity:1;}
-#restart-btn:hover,#credits-btn:hover{color:#7a8090;}
+#restart-btn,#credits-btn,#suite-btn{background:none;border:none;color:#7a8090;font-size:10px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;font-family:Georgia,serif;opacity:0;transition:opacity 1s ease,color .3s;}
+#restart-btn.shown,#credits-btn.shown,#suite-btn.shown{opacity:1;}
+#restart-btn:hover,#credits-btn:hover,#suite-btn:hover{color:#aab8c8;}
 
 /* CREDITS */
 #credits-screen{position:fixed;inset:0;background:#000;z-index:190;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;opacity:0;pointer-events:none;transition:opacity 0.8s ease;text-align:center;}
@@ -192,13 +186,25 @@ html,body{width:100%;height:100%;background:#060608;overflow:hidden;font-family:
 #credits-screen h2{font-size:clamp(16px,3vw,24px);color:#3a4250;letter-spacing:.22em;text-transform:uppercase;margin-bottom:32px;}
 #credits-screen p{font-size:13px;color:#4a5060;line-height:2.2;letter-spacing:.06em;}
 #credits-screen .credit-role{font-size:10px;color:#2a3040;letter-spacing:.2em;text-transform:uppercase;margin-top:16px;}
+
+#disclaimer-screen{position:fixed;inset:0;z-index:295;background:#040508;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.8s ease;}
+#disclaimer-screen.visible{opacity:1;pointer-events:all;}
+#disclaimer-inner{max-width:480px;text-align:center;padding:0 32px;}
+#disclaimer-inner p{font-family:Georgia,serif;font-size:12px;color:#3a4250;line-height:2;letter-spacing:.04em;font-style:italic;text-align:justify;}
+#disclaimer-inner p span{color:#2a3240;}
+#disclaimer-continue{margin-top:40px;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#2e3d4a;cursor:pointer;transition:color .3s;border:0.5px solid #2a3848;padding:9px 26px;display:inline-block;}
+#disclaimer-continue:hover{color:#6a7a88;border-color:#4a5a68;}
+
 #credits-back{margin-top:40px;background:none;border:0.5px solid #2a3040;color:#3a4050;font-family:Georgia,serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:9px 24px;cursor:pointer;transition:color .3s,border-color .3s;}
 #credits-back:hover{color:#8a9098;border-color:#5a6070;}
 #game-title{position:fixed;bottom:12px;left:0;right:0;text-align:center;font-size:10px;letter-spacing:.35em;color:#141820;text-transform:uppercase;z-index:5;pointer-events:none;}
+#end-continue-btn{margin-top:44px;background:none;border:0.5px solid #3a4050;color:#6a7080;font-family:Georgia,serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;padding:11px 36px;cursor:pointer;display:block;transition:opacity 1.2s ease,color .3s,border-color .3s;}
+#end-continue-btn:hover{color:#aab8c8;border-color:#5a7080;}
 </style>
 </head>
 <body>
 <div id="bg-layer"></div><div id="bg-overlay"></div><div id="progress-bar"></div>
+<div id="disclaimer-screen"><div id="disclaimer-inner"><p>Traitement Moral est une <span>œuvre de fiction</span> à caractère narratif et éducatif. Toute ressemblance avec des personnes réelles, vivantes ou décédées, des établissements existants ou des événements avérés serait purement fortuite. Les protocoles, terminologies et procédures médicales représentés dans ce récit ont été librement adaptés à des fins dramatiques et ne sauraient constituer une référence clinique, scientifique ou professionnelle.</p><p style="margin-top:20px;font-style:normal;letter-spacing:.12em;font-size:11px;color:#2a3240;text-align:right;">Ryan Debabêche</p><div id="disclaimer-continue">continuer</div></div></div>
 <div id="splash-screen"><div id="splash-inner"><div id="splash-title"><span class="big">T</span>raitement&nbsp;<span class="big">M</span>oral</div><div id="splash-sub">par Ryan Debabêche</div><button id="splash-btn">commencer</button></div></div>
 <div id="act-overlay"><div id="act-title-text"></div></div>
 <div id="fade-overlay"></div>
@@ -213,19 +219,21 @@ html,body{width:100%;height:100%;background:#060608;overflow:hidden;font-family:
 <div id="minigame-container"><canvas id="minigame-canvas"></canvas></div>
 <div id="mg-fail-overlay"><div id="mg-fail-box"><div id="mg-fail-msg"></div><button id="mg-retry-btn">Réessayer</button></div></div>
 <div id="choice-screen">
-  <div class="choice-half" onclick="makeChoice('left')"><div class="pulse-dot" id="pulse-left"></div><div class="choice-label" id="choice-left-text"></div><div class="choice-sublabel" id="choice-left-sub"></div></div>
-  <div class="choice-half" onclick="makeChoice('right')"><div class="pulse-dot" id="pulse-right"></div><div class="choice-label" id="choice-right-text"></div><div class="choice-sublabel" id="choice-right-sub"></div></div>
   <div id="choice-timer">10</div>
+  <div id="choice-options">
+    <div class="choice-half" onclick="makeChoice('left')"><div class="pulse-dot" id="pulse-left"></div><div class="choice-label" id="choice-left-text"></div><div class="choice-sublabel" id="choice-left-sub"></div></div>
+    <div class="choice-half" onclick="makeChoice('right')"><div class="pulse-dot" id="pulse-right"></div><div class="choice-label" id="choice-right-text"></div><div class="choice-sublabel" id="choice-right-sub"></div></div>
+  </div>
 </div>
-<div id="end-screen"><div id="end-content"></div><div id="end-title-display"><span style="font-size:1.18em;color:#5a6878">T</span>raitement&nbsp;<span style="font-size:1.18em;color:#5a6878">M</span>oral</div><div id="end-buttons"><button id="restart-btn" onclick="restartGame()">recommencer</button><button id="credits-btn" onclick="showCredits()">crédits</button></div></div>
-<div id="credits-screen"><h2><span style="font-size:1.18em;color:#5a6878">T</span>raitement&nbsp;<span style="font-size:1.18em;color:#5a6878">M</span>oral</h2><p style="color:#5a6070;font-style:italic;margin-bottom:24px">Un jeu narratif sur l'éthique médicale</p><p class="credit-role">Conception &amp; Narration</p><p>Ryan Debabêche</p><p class="credit-role">Travail de Maturité</p><p>2025</p><button id="credits-back" onclick="hideCredits()">retour</button></div>
+<div id="end-screen"><div id="end-content"></div><button id="end-continue-btn">terminer</button><div id="end-title-display"><span style="font-size:1.1em;color:#5a6878">T</span>raitement&nbsp;<span style="font-size:1.1em;color:#5a6878">M</span>oral<div id="end-version">Version&nbsp;1</div></div><div id="end-buttons"><button id="restart-btn" onclick="restartGame()">recommencer</button><button id="credits-btn" onclick="showCredits()">crédits</button><button id="suite-btn" onclick="goToQuestionnaire()">suite</button></div></div>
+<div id="credits-screen"><h2><span style="font-size:1.18em;color:#5a6878">T</span>raitement&nbsp;<span style="font-size:1.18em;color:#5a6878">M</span>oral</h2><p style="color:#5a6070;font-style:italic;margin-bottom:24px">Un jeu narratif comme support de travail de maturité</p><p class="credit-role">Conception &amp; Narration</p><p>Ryan Debabêche</p><p class="credit-role">Illustrations</p><p>Gemini (Google)</p><p class="credit-role">Musiques</p><p>Tension Time — Soundridemusic</p><p>Silent Drift — CinematicSounds</p><p class="credit-role">Code du jeu</p><p>Claude (Anthropic)</p><p class="credit-role">Travail de Maturité</p><p>2026</p><button id="credits-back" onclick="hideCredits()">retour</button></div>
 <div id="game-title"><span style="color:#1e2840;font-size:1.15em">T</span>raitement <span style="color:#1e2840;font-size:1.15em">M</span>oral</div>
 <div id="portrait-store" style="display:none">
-  <img id="p_claude" src="images/claude_neutre.png"><img id="p_claude_pensif" src="images/claude_pensif.png"><img id="p_claude_inquiet" src="images/claude_inquiet.png"><img id="p_claude_souriant" src="images/claude_souriant.png"><img id="p_claude_serieux" src="images/claude_serieux.png"><img id="p_claude_masque" src="images/claude_masque.png"><img id="p_claude_masque2" src="images/claude_masque2.png">
-  <img id="p_gerard" src="images/gerard_calme.png"><img id="p_gerard_souriant" src="images/gerard_souriant.png">
-  <img id="p_antoine" src="images/antoine_neutre.png"><img id="p_antoine_nerveux" src="images/antoine_nerveux.png"><img id="p_antoine_masque" src="images/antoine_masque.png">
-  <img id="p_lucas" src="images/lucas_inquiet.png"><img id="p_lucas_triste" src="images/lucas_triste.png"><img id="p_lucas_admiratif" src="images/lucas_admiratif.png"><img id="p_lucas_content" src="images/lucas_content.png"><img id="p_lucas_soucieux" src="images/lucas_soucieux.png">
-  <img id="p_infirmiere" src="images/infirmiere_neutre.png">
+  <img id="p_claude" src="images/claude_neutre.png"><img id="p_claude_med_sourire" src="images/claude_med_sourire.png"><img id="p_claude_med_neutre" src="images/claude_med_neutre.png"><img id="p_claude_civil_neutre" src="images/claude_civil_neutre.png"><img id="p_claude_civile_tendre" src="images/claude_civile_tendre.png"><img id="p_claude_chir_mask" src="images/claude_chir_mask.png"><img id="p_claude_chir_nomask" src="images/claude_chir_nomask.png">
+  <img id="p_gerard" src="images/gerard_calme.png"><img id="p_gerard_souriant" src="images/gerard_souriant.png"><img id="p_gerard_serieux" src="images/gerard_serieux.png">
+  <img id="p_antoine_masque" src="images/antoine_masque.png"><img id="p_antoine_serieux" src="images/antoine_serieux.png"><img id="p_antoine_chir_serieux" src="images/antoine_chir_serieux.png"><img id="p_antoine_inquiet_civil" src="images/antoine_inquiet_civil.png">
+  <img id="p_lucas" src="images/lucas_inquiet.png"><img id="p_lucas_pyj_calme" src="images/lucas_pyj_calme.png"><img id="p_lucas_pyj_inquiet" src="images/lucas_pyj_inquiet.png"><img id="p_lucas_pyj_sourire" src="images/lucas_pyj_sourire.png">
+  <img id="p_infirmiere" src="images/infirmiere_neutre.png"><img id="p_infirmiere_inquiete" src="images/infirmiere_inquiete.png">
 </div>
 <script src="engine.js"></script>
 <script src="story.js"></script>
